@@ -1662,7 +1662,7 @@ public final class DrawingPanel implements ImageObserver {
         
         // if zoomed, scale image before saving it
         if (SAVE_SCALED_IMAGES && currentZoom != 1) {
-            BufferedImage zoomedImage = new BufferedImage(width * currentZoom, height * currentZoom, image.getType());
+            BufferedImage zoomedImage = new BufferedImage(width * currentZoom, height * currentZoom, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = (Graphics2D) zoomedImage.getGraphics();
             g.setColor(Color.BLACK);
             if (antialias) {

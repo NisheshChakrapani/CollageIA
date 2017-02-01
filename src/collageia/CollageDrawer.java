@@ -25,9 +25,9 @@ public class CollageDrawer {
     private Graphics g;
     private String saveToFile;
     private Scanner scan = new Scanner(System.in);
-    private static int id = 0;
+    private int id = 1;
     
-    public CollageDrawer(String filename, PicLibrary picLibrary, int tileWidth, int tileHeight, String saveToFiles) throws IOException {
+    public CollageDrawer(String filename, PicLibrary picLibrary, int tileWidth, int tileHeight, String saveToFile) throws IOException {
         this.filename = filename;
         this.picLibrary = picLibrary;
         System.out.println("File path of picture to be collaged: " + filename);
@@ -38,7 +38,6 @@ public class CollageDrawer {
         TILE_WIDTH = tileWidth;
         TILE_HEIGHT = tileHeight;
         this.saveToFile = saveToFile;
-        id++;
     }
     
     /**
@@ -106,8 +105,7 @@ public class CollageDrawer {
             }
         }
         System.out.println("\nCollage created");
-        
-        /*
+          
         System.out.print("\nSave image? Type y for yes or n for no\n> ");
         String response = scan.nextLine().toLowerCase();
         while (!response.equals("y") && !response.equals("n")) {
@@ -115,15 +113,17 @@ public class CollageDrawer {
             response = scan.nextLine().toLowerCase();
         }
         if (response.equals("y")) {
-            TODO: Figure out how to save DrawingPanel content to a file
-            
-            File saveFolder = new File("C:\\Pictures\\Collages/");
-            File temp = File.createTempFile("Collage "+id, ".jpg", saveFolder);
-            panel.save(temp);
+            String name = "Collage " + id + ".png";
+            while (new File(saveToFile, name).exists()) {
+                id++;
+                name = "Collage " + id + ".png";
+            }
+            System.out.println("Creating file \"" + name + "\" in folder " + saveToFile);
+            panel.save(new File(saveToFile+name));
         }
         System.out.println("Thank you for using the Collager!");
         System.exit(0);
-        */
+        
     }
     
     private int closestIndex(int num, ArrayList<Picture> pics) {
