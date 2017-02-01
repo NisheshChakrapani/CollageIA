@@ -33,7 +33,7 @@ public class CollageIA {
         Graphics g = cc.getGraphics();
         cc.collage(g);*/
 
-        String saveTo = "C:/Users/Nishu/Pictures/Collages/";
+        String saveTo = "C:\\Users\\Nishu\\Pictures\\Collages\\";
         //Draw using Drawing Panel
         CollageDrawer cd = new CollageDrawer(toBeCollaged, pl, 8, 4, saveTo);
         cd.collage();
