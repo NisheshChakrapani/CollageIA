@@ -116,7 +116,13 @@ public class CollageDrawer {
             String name = "Collage " + id + ".png";
             while (new File(saveToFile, name).exists()) {
                 id++;
-                name = "Collage " + id + ".png";
+                System.out.print("Give a name to the file? Type the filename you want or type 'D' for default filename\n> ");
+                name = scan.nextLine();
+                if (name.toUpperCase().equals("D")) {
+                    name = "Collage " + id + ".png";
+                } else {
+                    name = name + ".png";
+                }
             }
             System.out.println("Creating file \"" + name + "\" in folder " + saveToFile);
             panel.save(new File(saveToFile+name));
