@@ -119,10 +119,14 @@ public class CollageDrawer {
         }
         if (response.equals("y")) {
             String name = "Collage " + id + ".png";
+            System.out.print("Give a name to the file? Type the filename you want or type 'D' for default filename\n> ");
             while (new File(saveToFile, name).exists()) {
-                id++;
-                System.out.print("Give a name to the file? Type the filename you want or type 'D' for default filename\n> ");
+                id++;   
                 name = scan.nextLine();
+                while (containsIllegalChars(name) || filenameTooLong(name) || fileAlreadyExists(name)) {
+                    System.out.print("Illegal filename (either too long, contains an illegal character, or already exists within save destination folder). Enter filename:\n> ");
+                    name = scan.nextLine();
+                }
                 if (name.toUpperCase().equals("D")) {
                     name = "Collage " + id + ".png";
                 } else {
@@ -149,5 +153,32 @@ public class CollageDrawer {
         }
         
         return closest;
+    }
+    
+    private boolean containsIllegalChars(String s) {
+        //ILLEGAL CHARS: /, \, ?, %, *, :, |, ", <, >
+        if (s.contains("/") || s.contains("\\") || s.contains("?") || s.contains("%") || s.contains("*") || s.contains(":") || s.contains("|")
+                || s.contains("\"") || s.contains("<") || s.contains(">")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean filenameTooLong(String s) {
+        if (s.length() >= 100) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean fileAlreadyExists(String s) {
+        File newFile = new File(saveToFile+s+".png");
+        if (newFile.exists() && !newFile.isDirectory()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

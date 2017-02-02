@@ -34,7 +34,7 @@ public class FilepathRetriever {
     }
     
     private void retrieveLibraryPath() {
-        System.out.print("Enter file folder path for your library of pictures you want used to create the collage, with an ending"
+        System.out.print("Enter file folder path for your library of pictures you want used to create the collage, with an ending "
                 + "'\\' at the end (i.e. C\\Users\\Me\\Pictures\\CollagePhotos\\)\n> ");
         String path = scan.nextLine();
         File f = new File(path);
@@ -49,13 +49,14 @@ public class FilepathRetriever {
     
     private void retrieveCollageImagePath() {
         System.out.print("Enter path for image file for the picture that you want to make a collage of, making sure that the file ends with "
-                + "'.jpg', '.png', or '.jpeg'\n> ");
+                + "'.jpg', '.png', '.gif', or '.jpeg'\n> ");
         String path = scan.nextLine();
-        boolean legal = (path.substring(path.length()-4, path.length()).equals(".jpg") || path.substring(path.length()-4, path.length()).equals(".jpeg") || path.substring(path.length()-4, path.length()).equals(".png"));
+        boolean legal = path.endsWith(".jpg") || path.endsWith(".gif") || path.endsWith(".png") || path.endsWith(".jpeg");
         File f = new File(path);
         while (!legal || !f.exists()) {
-            System.out.print("Invalid path. Make sure the referenced image file exists and it ends in '.jpg', '.png', or '.jpeg'\n> ");
+            System.out.print("Invalid path. Make sure the referenced image file exists and it ends in '.jpg', '.png', '.gif', or '.jpeg'\n> ");
             path = scan.nextLine();
+            legal = path.endsWith(".jpg") || path.endsWith(".gif") || path.endsWith(".png") || path.endsWith(".jpeg");
             f = new File(path);
         }
         
@@ -63,7 +64,7 @@ public class FilepathRetriever {
     }
     
     private void retrieveSavePath() {
-        System.out.print("Enter file folder path for where you want your collage to be saved, with an ending"
+        System.out.print("Enter file folder path for where you want your collage to be saved, with an ending "
                 + "'\\' at the end (i.e. C\\Users\\Me\\Pictures\\Saved Collages\\)\n> ");
         String path = scan.nextLine();
         File f = new File(path);
