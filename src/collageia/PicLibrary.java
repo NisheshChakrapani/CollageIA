@@ -33,7 +33,7 @@ public class PicLibrary {
     private int numImages() {
         fileNames = directory.list(new FilenameFilter() {
             public boolean accept (File directory, String fileName) {
-                if ((fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith("jpeg") || fileName.endsWith(".gif") || fileName.endsWith(".gif"))) {
+                if ((fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".gif"))) {
                     return true;
                 } else {
                     return false;
@@ -46,7 +46,13 @@ public class PicLibrary {
     
     private int numNotImage() {
         String[] allFiles = directory.list();
-        return (allFiles.length-fileNames.length);
+        int num = allFiles.length-fileNames.length;
+        for (String s : allFiles) {
+            if (s.endsWith(".db")) {
+                num--;
+            }
+        }
+        return (num);
     }
     
     private void setLibrary() throws IOException {

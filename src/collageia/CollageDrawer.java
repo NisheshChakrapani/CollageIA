@@ -120,7 +120,8 @@ public class CollageDrawer {
         if (response.equals("y")) {
             String name = "Collage " + id + ".png";
             System.out.print("Give a name to the file? Type the filename you want or type 'D' for default filename\n> ");
-            while (new File(saveToFile, name).exists()) {
+            boolean done = false;
+            while (!done) {
                 id++;   
                 name = scan.nextLine();
                 while (containsIllegalChars(name) || filenameTooLong(name) || fileAlreadyExists(name)) {
@@ -129,13 +130,16 @@ public class CollageDrawer {
                 }
                 if (name.toUpperCase().equals("D")) {
                     name = "Collage " + id + ".png";
+                    done = true;
                 } else {
                     name = name + ".png";
+                    done = true;
                 }
             }
             System.out.println("Creating file \"" + name + "\" in folder " + saveToFile);
             panel.save(new File(saveToFile+name));
         }
+        System.out.println("Complete.");
         System.out.println("Thank you for using the Collager!");
         System.exit(0);
         
