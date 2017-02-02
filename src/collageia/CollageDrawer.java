@@ -30,7 +30,6 @@ public class CollageDrawer {
     public CollageDrawer(String filename, PicLibrary picLibrary, int tileWidth, int tileHeight, String saveToFile) throws IOException {
         this.filename = filename;
         this.picLibrary = picLibrary;
-        System.out.println("File path of picture to be collaged: " + filename);
         image = ImageIO.read(new File(filename));
         panel = new DrawingPanel(image.getWidth(), image.getHeight());
         g = panel.getGraphics();
@@ -38,6 +37,12 @@ public class CollageDrawer {
         TILE_WIDTH = tileWidth;
         TILE_HEIGHT = tileHeight;
         this.saveToFile = saveToFile;
+        while (image.getWidth()%TILE_WIDTH != 0) {
+            image = image.getSubimage(0, 0, image.getWidth()-1, image.getHeight());
+        }
+        while (image.getHeight()%TILE_HEIGHT != 0) {
+            image = image.getSubimage(0, 0, image.getWidth(), image.getHeight()-1);
+        }
     }
     
     /**
