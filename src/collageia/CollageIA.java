@@ -19,24 +19,22 @@ public class CollageIA {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        //String path = "C:\\Users\\Nishu\\Pictures\\Calvin and Hobbes Backgrounds\\"; //Home
-        String path = "H:\\Pictures\\"; //School
-        //String path = "C:\\Users\\Nishu\\Pictures\\Summer2016\\Spain\\";
+        String path = "C:\\Users\\Nishu\\Pictures\\Calvin and Hobbes Backgrounds\\"; //Home
+        //String path = "H:\\Pictures\\"; //School
+
         PicLibrary pl = new PicLibrary(path);
         pl.printPictures();
         
-        //String toBeCollaged = "C:\\Users\\Nishu\\Pictures\\Programming\\CalvinAndHobbes.jpg"; //Home
-        String toBeCollaged = "H:\\Fireplace.jpg"; //School
-        //String toBeCollaged = "C:\\Users\\Nishu\\Pictures\\Programming\\CampNou.jpg";
-        //String toBeCollaged = "C:\\Users\\Nishu\\Pictures\\YouTube\\Channel Art.jpg";
+        String toBeCollaged = "C:\\Users\\Nishu\\Pictures\\Programming\\CalvinAndHobbesMassive.jpg"; //Home
+        //String toBeCollaged = "H:\\Fireplace.jpg"; //School
         
         //Draw using Java swing
         /*CollageCreator cc = new CollageCreator(toBeCollaged, pl);
         Graphics g = cc.getGraphics();
         cc.collage(g);*/
 
-        //String saveTo = "C:\\Users\\Nishu\\Pictures\\Collages\\"; //Home
-        String saveTo = "H:\\Saved Collages\\"; //School
+        String saveTo = "C:\\Users\\Nishu\\Pictures\\Collages\\"; //Home
+        //String saveTo = "H:\\Saved Collages\\"; //School
         //Draw using Drawing Panel
         CollageDrawer cd = new CollageDrawer(toBeCollaged, pl, 32, 20, saveTo);
         cd.collage();
