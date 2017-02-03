@@ -138,8 +138,8 @@ public class CollageDrawer {
             }
             System.out.println("Creating file \"" + name + "\" in folder " + saveToFile);
             panel.save(new File(saveToFile+name));
+            System.out.println("Save complete.");
         }
-        System.out.println("Complete.");
         System.out.println("Thank you for using the Collager!");
         System.exit(0);
         
