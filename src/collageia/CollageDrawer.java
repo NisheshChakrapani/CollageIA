@@ -52,7 +52,7 @@ public class CollageDrawer {
     public void collage() throws IOException {
         int tileSize = TILE_WIDTH*TILE_HEIGHT;
         int numTiles = ((image.getWidth()*image.getHeight())/tileSize);
-        int[] tileAvgColors = new int[numTiles];
+        Color[] tileAvgColors = new Color[numTiles];
         
         int x = 0;
         int y = 0;
@@ -82,7 +82,7 @@ public class CollageDrawer {
             green /= tileSize;
             blue /= tileSize;
             
-            tileAvgColors[i] = ((red+green+blue)/3);
+            tileAvgColors[i] = new Color(red, green, blue);
         }
         
         ArrayList<Picture> pictures = picLibrary.getList();
@@ -93,8 +93,8 @@ public class CollageDrawer {
         
         BufferedImage[] tiles = new BufferedImage[numTiles];
         int count = 0;
-        for (int avgColor : tileAvgColors) {
-            Picture pic = pictures.get(closestIndex(avgColor, pictures));
+        for (Color avgColor : tileAvgColors) {
+            Picture pic = (closestPicture(avgColor, pictures));
             tiles[count] = pic.getImage();
             count++;
         }
@@ -145,18 +145,17 @@ public class CollageDrawer {
         
     }
     
-    private int closestIndex(int num, ArrayList<Picture> pics) {
-        int closest = 0;
-        int smallestDistance = Math.abs(pics.get(0).getAvgColor() - num);
-        
-        for (int i = 1; i < pics.size(); i++) {
-            if ((Math.abs(pics.get(i).getAvgColor()-num)) < smallestDistance) {
-                smallestDistance = (Math.abs(pics.get(i).getAvgColor() - num));
-                closest = i;
-            }
+    private Picture closestPicture(Color color, ArrayList<Picture> pics) {
+        KDTree tree = new KDTree(pics);
+        tree.createTree();
+        TreeNode best = tree.nearestNeighbor(color);
+        Picture bestPic = pics.get(0);
+        for (Picture pic : pics) {
+            if (pic.getAvgColor().equals(best.getPicture().getAvgColor()))
+                bestPic = pic;
         }
-        
-        return closest;
+
+        return bestPic;
     }
     
     private boolean containsIllegalChars(String s) {

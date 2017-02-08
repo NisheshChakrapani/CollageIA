@@ -44,7 +44,7 @@ public class CollageCreator extends javax.swing.JFrame {
      * @param g, a Graphics object obtained from the JPanel using CollageCreator.getGraphics()
      * @throws IOException
      */
-    public static void collage(Graphics g) throws IOException {
+    /*public static void collage(Graphics g) throws IOException {
         int tileSize = TILE_WIDTH*TILE_HEIGHT;
         int numTiles = (image.getWidth()*image.getHeight())/tileSize;
         int[] tileAvgColors = new int[numTiles];
@@ -96,9 +96,9 @@ public class CollageCreator extends javax.swing.JFrame {
         newFrame.setVisible(true);
         System.out.println("Creating collage...");
         frame.setVisible(false);
-    }
+    }*/
 
-    private static int closestIndex(int num, ArrayList<Picture> pics) {
+    /*private static int closestIndex(int num, ArrayList<Picture> pics) {
         int closest = 0;
         int smallestDistance = Math.abs(pics.get(0).getAvgColor()-num);
         for (int i = 1; i < pics.size(); i++) {
@@ -109,7 +109,7 @@ public class CollageCreator extends javax.swing.JFrame {
         }
         
         return closest;
-    }
+    }*/
     
     /**
      * This method is called from within the constructor to initialize the form.

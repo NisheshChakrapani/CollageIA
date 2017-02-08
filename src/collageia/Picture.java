@@ -13,9 +13,8 @@ import javax.imageio.ImageIO;
  *
  * @author Nishu
  */
-public class Picture implements Comparable<Picture> {
+public class Picture {
     private String filename;
-    private int avgColor;
     private BufferedImage img;
     private final int WIDTH;
     private final int HEIGHT;
@@ -47,28 +46,19 @@ public class Picture implements Comparable<Picture> {
     
     private void setAvgColor() {
         int[] avgs = this.getAvgRGB();
-        this.avgColor = ((avgs[0]+avgs[1]+avgs[2])/3);
         this.color = new Color(avgs[0], avgs[1], avgs[2]);
-    }
-    
-    /**
-     * Gets the average color of the image associated with the Picture object
-     * @return The average color as an integer, calculated by adding the average red, green, and blue values per pixel and dividing by 3
-     */
-    public int getAvgColor() {
-        return this.avgColor;
     }
     
     /**
      * Gets the average color of the image associated with the Picture object
      * @return The average color as a Color object, made with the average red, green, and blue values per pixel
      */
-    public Color getAvgColorAsColor() {
+    public Color getAvgColor() {
         return this.color;
     }
     
     private int[] getAvgRGB() {
-        int numPixels = WIDTH*HEIGHT;
+        int numPixels = WIDTH * HEIGHT;
         int[] redVals = new int[numPixels];
         int[] greenVals = new int[numPixels];
         int[] blueVals = new int[numPixels];
@@ -84,10 +74,10 @@ public class Picture implements Comparable<Picture> {
                 x++;
                 pixel++;
             }
-            x=0;
+            x = 0;
             y++;
         }
-        
+
         int redSum = 0;
         int greenSum = 0;
         int blueSum = 0;
@@ -96,22 +86,28 @@ public class Picture implements Comparable<Picture> {
             greenSum += greenVals[i];
             blueSum += blueVals[i];
         }
-        
+
         int[] avgs = new int[3];
-        avgs[0] = redSum/numPixels;
-        avgs[1] = greenSum/numPixels;
-        avgs[2] = blueSum/numPixels;
-        
+        avgs[0] = redSum / numPixels;
+        avgs[1] = greenSum / numPixels;
+        avgs[2] = blueSum / numPixels;
+
         return avgs;
-    }  
-    
-    @Override
-    public int compareTo(Picture p) {
-        return Integer.compare(this.avgColor, p.avgColor);
     }
     
     @Override
     public String toString() {
-        return this.avgColor + ", " + this.filename;
+        String rgb = "(" + getAvgColor().getRed() + ", " + getAvgColor().getGreen() + ", " + getAvgColor().getBlue() + ")";
+        return this.filename + rgb;
+    }
+
+    public int getRed() {
+        return color.getRed();
+    }
+    public int getGreen() {
+        return color.getGreen();
+    }
+    public int getBlue() {
+        return color.getBlue();
     }
 }

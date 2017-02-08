@@ -39,7 +39,7 @@ public class FilepathRetriever {
         String path = scan.nextLine();
         File f = new File(path);
         while (!f.isDirectory() || path.charAt(path.length()-1)!='\\' || f.listFiles().length==0 || !f.exists()) {
-            System.out.print("Invalid path. Make sure you typed the file folder path correctly, that the folder exists, and that the folder contains images\n> ");
+            System.out.print("Invalid path. Make sure you typed the file folder path correctly, that the folder exists, and that the folder contains images. Don't forget the ending '\\'!\n> ");
             path = scan.nextLine();
             f = new File(path);
         }
@@ -69,7 +69,7 @@ public class FilepathRetriever {
         String path = scan.nextLine();
         File f = new File(path);
         while (!f.isDirectory() || path.charAt(path.length()-1)!='\\' || !f.exists()) {
-            System.out.print("Invalid path. Make sure you typed the file folder path correctly and that the folder contains images\n> ");
+            System.out.print("Invalid path. Make sure you typed the file folder path correctly and that the folder contains images. Don't forget the ending '\\'!\n> ");
             path = scan.nextLine();
             f = new File(path);
         }

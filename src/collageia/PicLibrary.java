@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package collageia;
+import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,11 +16,11 @@ import java.util.Comparator;
  * @author Nishu
  */
 public class PicLibrary {
-    private ArrayList pictures = new ArrayList();
+    private ArrayList<Picture> pictures = new ArrayList();
     private String folderDirectory;
     private File directory;
     private String[] fileNames;
-    
+
     public PicLibrary(String folderDirectory) throws IOException {
         this.folderDirectory = folderDirectory;
         directory = new File(this.folderDirectory);
@@ -60,16 +61,6 @@ public class PicLibrary {
             Picture pic = new Picture(folderDirectory, fileNames[i]);
             pictures.add(pic);
         }
-        sortPictures();   
-    }
-    
-    private void sortPictures() {
-        Collections.sort(pictures, new Comparator<Picture>() {
-            @Override
-            public int compare(Picture p1, Picture p2) {
-                return Integer.compare(p1.getAvgColor(), p2.getAvgColor());
-            }
-        });
     }
     
     /**
