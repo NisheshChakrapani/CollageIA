@@ -32,6 +32,7 @@ public class CollageDrawer {
         this.picLibrary = picLibrary;
         image = ImageIO.read(new File(filename));
         panel = new DrawingPanel(image.getWidth(), image.getHeight());
+        panel.setVisible(true);
         g = panel.getGraphics();
         g.drawImage(image, 0, 0, null);
         TILE_WIDTH = tileWidth;
@@ -43,7 +44,7 @@ public class CollageDrawer {
         while (image.getHeight()%TILE_HEIGHT != 0) {
             image = image.getSubimage(0, 0, image.getWidth(), image.getHeight()-1);
         }
-    }
+    } 
     
     /**
      * Creates a collage of the photo from the file path passed through the constructor, using the Pictures from the PicLibrary passed through the constructor
@@ -140,9 +141,24 @@ public class CollageDrawer {
             panel.save(new File(saveToFile+name));
             System.out.println("Save complete.");
         }
-        System.out.println("Thank you for using the Collager!");
-        System.exit(0);
-        
+        System.out.print("Want to make another collage? Type y for yes or n for no\n> ");
+        String answer = scan.next();
+        while (!answer.equalsIgnoreCase("n") && !answer.equalsIgnoreCase("y")) {
+            System.out.print("Type y for yes or n for no\n> ");
+            answer = scan.next();
+        }
+        if (answer.equalsIgnoreCase("n")) {
+            System.out.println("Thanks for using the collager!");
+            System.exit(0);
+        } else {
+            panel.setVisible(false);
+            FilepathRetriever fr = new FilepathRetriever();
+            String toBeCollaged = fr.getCollageImagePath();
+            int tileWidth = fr.getTileWidth();
+            int tileHeight = fr.getTileHeight();
+            CollageDrawer cd = new CollageDrawer(toBeCollaged, picLibrary, tileWidth, tileHeight, saveToFile);
+            cd.collage();
+        }
     }
     
     private Picture closestPicture(Color color, ArrayList<Picture> pics) {
