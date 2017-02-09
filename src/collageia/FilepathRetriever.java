@@ -20,19 +20,6 @@ public class FilepathRetriever {
     private int tileWidth;
     private int tileHeight;
     
-    public FilepathRetriever() {
-        this.retrieveLibraryPath();
-        System.out.println();
-        this.retrieveCollageImagePath();
-        System.out.println();
-        this.retrieveSavePath();
-        System.out.println();
-        this.retrieveTileWidth();
-        System.out.println();
-        this.retrieveTileHeight();
-        System.out.println();
-    }
-    
     private void retrieveLibraryPath() {
         System.out.print("Enter file folder path for your library of pictures you want used to create the collage, with an ending "
                 + "'\\' at the end (i.e. C\\Users\\Me\\Pictures\\CollagePhotos\\)\n> ");
@@ -78,20 +65,20 @@ public class FilepathRetriever {
     }
     
     private void retrieveTileWidth() {
-        System.out.print("Enter the width of each tile in the collage, as a number from 2 to 32 pixels\n> ");
+        System.out.print("Enter the width of each tile in the collage, as a number from 8 to 32 pixels\n> ");
         boolean retrieved = false;
         int width = 0;
         while (!retrieved) {
             String input = scan.nextLine();
             try {
                 width = Integer.parseInt(input);
-                if (width >= 2 && width <= 32) {
+                if (width >= 8 && width <= 32) {
                     retrieved = true;
                 } else {
-                    System.out.print("Enter a number from 2 to 32\n> ");
+                    System.out.print("Enter a number from 8 to 32\n> ");
                 }
             } catch (NumberFormatException e) {
-                System.out.print("Enter a number from 2 to 32\n> ");
+                System.out.print("Enter a number from 8 to 32\n> ");
             }
         }
         
@@ -99,20 +86,20 @@ public class FilepathRetriever {
     }
     
     private void retrieveTileHeight() {
-        System.out.print("Enter the height of each tile in the collage, as a number from 2 to 32 pixels\n> ");
+        System.out.print("Enter the height of each tile in the collage, as a number from 8 to 32 pixels\n> ");
         boolean retrieved = false;
         int height = 0;
         while (!retrieved) {
             String input = scan.nextLine();
             try {
                 height = Integer.parseInt(input);
-                if (height >= 2 && height <= 32) {
+                if (height >= 8 && height <= 32) {
                     retrieved = true;
                 } else {
-                    System.out.print("Enter a number from 2 to 32\n> ");
+                    System.out.print("Enter a number from 8 to 32\n> ");
                 }
             } catch (NumberFormatException e) {
-                System.out.print("Enter a number from 2 to 32\n> ");
+                System.out.print("Enter a number from 8 to 32\n> ");
             }
         }
         
@@ -120,22 +107,31 @@ public class FilepathRetriever {
     }
     
     public String getLibraryPath() {
+        this.retrieveLibraryPath();
+        System.out.println();
         return libraryPath;
     }
     
     public String getCollageImagePath() {
+        this.retrieveCollageImagePath();
+        System.out.println();
         return collageImagePath;
     }
     
     public String getSavePath() {
+        this.retrieveSavePath();
+        System.out.println();
         return savePath;
     }
     
     public int getTileWidth() {
+        this.retrieveTileWidth();
+        System.out.println();
         return tileWidth;
     }
     
     public int getTileHeight() {
+        this.retrieveTileHeight();
         return tileHeight;
     }
 }
