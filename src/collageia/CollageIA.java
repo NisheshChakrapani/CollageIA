@@ -35,6 +35,10 @@ public class CollageIA {
         
         //Draw using Drawing Panel
         CollageDrawer cd = new CollageDrawer(toBeCollaged, pl, tileWidth, tileHeight, saveTo);
-        cd.collage();
+        try {
+            cd.collage();
+        } catch (OutOfMemoryError | StackOverflowError e) {
+            System.out.println("Image was too large. Collage aborted.");
+        }
     }   
 }
