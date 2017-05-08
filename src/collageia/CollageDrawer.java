@@ -6,6 +6,7 @@
 package collageia;
 import java.io.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,14 +33,22 @@ public class CollageDrawer {
     public CollageDrawer(String filename, PicLibrary picLibrary, int tileWidth, int tileHeight, String saveToFile) throws IOException {
         this.filename = filename;
         this.picLibrary = picLibrary;
-        image = ImageIO.read(new File(filename));
+        image = ImageIO.read(new File(filename));    
+        TILE_WIDTH = tileWidth;
+        TILE_HEIGHT = tileHeight;
+        this.saveToFile = saveToFile;
+        if (image.getWidth() < 4545 && image.getHeight() < 4545) {
+            System.out.println("Scaling image up for better quality...");
+            if (image.getWidth() > image.getHeight()) {
+                image = scale(image, image.getType(), 4545, (int)(image.getHeight()*(4545/image.getWidth())), 4545/image.getWidth(), 4545/image.getHeight());
+            } else {
+                image = scale(image, image.getType(), (int)(image.getWidth()*(4545/image.getHeight())), 4545, 4545/image.getWidth(), 4545/image.getHeight());
+            }
+        }
         panel = new DrawingPanel(image.getWidth(), image.getHeight());
         panel.setVisible(true);
         g = panel.getGraphics();
         g.drawImage(image, 0, 0, null);
-        TILE_WIDTH = tileWidth;
-        TILE_HEIGHT = tileHeight;
-        this.saveToFile = saveToFile;
         while (image.getWidth()%TILE_WIDTH != 0) {
             image = image.getSubimage(0, 0, image.getWidth()-1, image.getHeight());
         }
@@ -219,5 +228,27 @@ public class CollageDrawer {
         } else {
             return false;
         }
+    }
+    
+    /**
+    * scale image
+    * 
+    * @param sbi image to scale
+    * @param imageType type of image
+    * @param dWidth width of destination image
+    * @param dHeight height of destination image
+    * @param fWidth x-factor for transformation / scaling
+    * @param fHeight y-factor for transformation / scaling
+    * @return scaled image
+    */
+    private BufferedImage scale(BufferedImage sbi, int imageType, int dWidth, int dHeight, double fWidth, double fHeight) {
+        BufferedImage dbi = null;
+        if(sbi != null) {
+            dbi = new BufferedImage(dWidth, dHeight, imageType);
+            Graphics2D g = dbi.createGraphics();
+            AffineTransform at = AffineTransform.getScaleInstance(fWidth, fHeight);
+            g.drawRenderedImage(sbi, at);
+        }
+        return dbi;
     }
 }
