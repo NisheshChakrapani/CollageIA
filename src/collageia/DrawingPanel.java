@@ -296,7 +296,7 @@ public final class DrawingPanel implements ImageObserver {
     private static final boolean SAVE_SCALED_IMAGES = true;    // if true, when panel is zoomed, saves images at that zoom factor
     private static final int DELAY                  = 100;     // delay between repaints in millis
     private static final int MAX_FRAMES             = 100;     // max animation frames
-    private static final int MAX_SIZE               = 10000;   // max width/height
+    private static final int MAX_SIZE               = 20000;   // max width/height
     private static final int GRID_LINES_PX_GAP_DEFAULT = 10;   // default px between grid lines
     
     private static final String VERSION             = "4.04 (2016/08/17)";

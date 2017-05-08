@@ -17,7 +17,7 @@ public class CollageIA {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // TODO code application logic here
         FilepathRetriever fr = new FilepathRetriever();
         String path = fr.getLibraryPath();

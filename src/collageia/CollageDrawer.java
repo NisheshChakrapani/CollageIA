@@ -7,6 +7,8 @@ package collageia;
 import java.io.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
@@ -50,7 +52,7 @@ public class CollageDrawer {
      * Creates a collage of the photo from the file path passed through the constructor, using the Pictures from the PicLibrary passed through the constructor
      * @throws IOException
      */
-    public void collage() throws IOException {
+    public void collage() throws IOException, InterruptedException {
         int tileSize = TILE_WIDTH*TILE_HEIGHT;
         int numTiles = ((image.getWidth()*image.getHeight())/tileSize);
         Color[] tileAvgColors = new Color[numTiles];
@@ -118,6 +120,7 @@ public class CollageDrawer {
             System.out.print("Type y for yes or n for no\n> ");
             response = scan.nextLine().toLowerCase();
         }
+        String name2 = "";
         if (response.equals("y")) {
             String name = "Collage " + id + ".png";
             System.out.print("Give a name to the file? Type the filename you want or type 'D' for default filename\n> ");
@@ -130,16 +133,33 @@ public class CollageDrawer {
                     name = scan.nextLine();
                 }
                 if (name.toUpperCase().equals("D")) {
+                    name2 = "Collage" + id + "SideBySide.png";
                     name = "Collage " + id + ".png";
                     done = true;
                 } else {
+                    name2 = name + "SideBySide.png";
                     name = name + ".png";
                     done = true;
                 }
             }
             System.out.println("Creating file \"" + name + "\" in folder " + saveToFile);
-            panel.save(new File(saveToFile+name));
+            Files.createDirectory(Paths.get(saveToFile+name.substring(0, name.length()-4)));
+            panel.save(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name));
+            System.out.println("Successful.");
+            System.out.println("Saving side-by-side comparsion file...");
+            DrawingPanel temp = new DrawingPanel(panel.getWidth()*2, panel.getHeight());
+            Graphics g2 = temp.getGraphics();
+            g2.drawImage(image, 0, 0, null);
+            BufferedImage collage = ImageIO.read(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name));
+            g2.drawImage(collage, image.getWidth(), 0, null);
+            temp.save(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name2));
+            System.out.println("Successful.");
             System.out.println("Save complete.");
+
+            panel.setVisible(false);
+            temp.setVisible(false);
+            Desktop d = Desktop.getDesktop();
+            d.open(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name2));
         }
         System.out.print("Want to make another collage? Type y for yes or n for no\n> ");
         String answer = scan.next();
