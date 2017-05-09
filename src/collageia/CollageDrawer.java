@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package collageia;
+import net.coobird.thumbnailator.Thumbnails;
+
 import java.io.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -37,12 +41,12 @@ public class CollageDrawer {
         TILE_WIDTH = tileWidth;
         TILE_HEIGHT = tileHeight;
         this.saveToFile = saveToFile;
-        if (image.getWidth() < 4545 && image.getHeight() < 4545) {
+        if (image.getWidth() < 4000 && image.getHeight() < 4000) {
             System.out.println("Scaling image up for better quality...");
             if (image.getWidth() > image.getHeight()) {
-                image = scale(image, image.getType(), 4545, (int)(image.getHeight()*(4545/image.getWidth())), 4545/image.getWidth(), 4545/image.getHeight());
+                image = scale(4000/image.getWidth());
             } else {
-                image = scale(image, image.getType(), (int)(image.getWidth()*(4545/image.getHeight())), 4545, 4545/image.getWidth(), 4545/image.getHeight());
+                image = scale(4000/image.getHeight());
             }
         }
         panel = new DrawingPanel(image.getWidth(), image.getHeight());
@@ -135,7 +139,7 @@ public class CollageDrawer {
             System.out.print("Give a name to the file? Type the filename you want or type 'D' for default filename\n> ");
             boolean done = false;
             while (!done) {
-                id++;   
+                id++;
                 name = scan.nextLine();
                 while (containsIllegalChars(name) || filenameTooLong(name) || fileAlreadyExists(name)) {
                     System.out.print("Illegal filename (either too long, contains an illegal character, or already exists within save destination folder). Enter filename:\n> ");
@@ -151,42 +155,25 @@ public class CollageDrawer {
                     done = true;
                 }
             }
-            System.out.println("Creating file \"" + name + "\" in folder " + saveToFile);
-            Files.createDirectory(Paths.get(saveToFile+name.substring(0, name.length()-4)));
-            panel.save(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name));
-            System.out.println("Successful.");
-            System.out.println("Saving side-by-side comparsion file...");
-            DrawingPanel temp = new DrawingPanel(panel.getWidth()*2, panel.getHeight());
+            System.out.println("Creating file \"" + name + "\" in folder " + saveToFile + name.substring(0, name.length() - 4) + "\\\n");
+            Files.createDirectory(Paths.get(saveToFile + name.substring(0, name.length() - 4)));
+            panel.save(new File(saveToFile + name.substring(0, name.length() - 4) + "\\" + name));
+            System.out.println("Successful.\n");
+            System.out.println("Saving side-by-side comparison file...\n");
+            DrawingPanel temp = new DrawingPanel(panel.getWidth() * 2, panel.getHeight());
             Graphics g2 = temp.getGraphics();
             g2.drawImage(image, 0, 0, null);
-            BufferedImage collage = ImageIO.read(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name));
+            BufferedImage collage = ImageIO.read(new File(saveToFile + name.substring(0, name.length() - 4) + "\\" + name));
             g2.drawImage(collage, image.getWidth(), 0, null);
-            temp.save(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name2));
-            System.out.println("Successful.");
-            System.out.println("Save complete.");
-
+            temp.save(new File(saveToFile + name.substring(0, name.length() - 4) + "\\" + name2));
+            System.out.println("Successful.\n");
+            System.out.println("Save complete.\n");
             panel.setVisible(false);
             temp.setVisible(false);
+            panel = null;
+            temp = null;
             Desktop d = Desktop.getDesktop();
-            d.open(new File(saveToFile+name.substring(0, name.length()-4)+"\\"+name2));
-        }
-        System.out.print("Want to make another collage? Type y for yes or n for no\n> ");
-        String answer = scan.next();
-        while (!answer.equalsIgnoreCase("n") && !answer.equalsIgnoreCase("y")) {
-            System.out.print("Type y for yes or n for no\n> ");
-            answer = scan.next();
-        }
-        if (answer.equalsIgnoreCase("n")) {
-            System.out.println("Thanks for using the collager!");
-            System.exit(0);
-        } else {
-            panel.setVisible(false);
-            FilepathRetriever fr = new FilepathRetriever();
-            String toBeCollaged = fr.getCollageImagePath();
-            int tileWidth = fr.getTileWidth();
-            int tileHeight = fr.getTileHeight();
-            CollageDrawer cd = new CollageDrawer(toBeCollaged, picLibrary, tileWidth, tileHeight, saveToFile);
-            cd.collage();
+            d.open(new File(saveToFile + name.substring(0, name.length() - 4) + "\\" + name2));
         }
     }
     
@@ -221,27 +208,20 @@ public class CollageDrawer {
         }
     }
     
-    private boolean fileAlreadyExists(String s) {
-        File newFile = new File(saveToFile+s+".png");
-        if (newFile.exists() && !newFile.isDirectory()) {
+    private boolean fileAlreadyExists(String s) throws IOException {
+        boolean folderTaken = false;
+        if (Files.exists(Paths.get(saveToFile+s+"\\"))) {
+            folderTaken = true;
+        }
+
+        if (folderTaken) {
             return true;
         } else {
             return false;
         }
     }
-    
-    /**
-    * scale image
-    * 
-    * @param sbi image to scale
-    * @param imageType type of image
-    * @param dWidth width of destination image
-    * @param dHeight height of destination image
-    * @param fWidth x-factor for transformation / scaling
-    * @param fHeight y-factor for transformation / scaling
-    * @return scaled image
-    */
-    private BufferedImage scale(BufferedImage sbi, int imageType, int dWidth, int dHeight, double fWidth, double fHeight) {
+
+    /*private BufferedImage scale(BufferedImage sbi, int imageType, int dWidth, int dHeight, double fWidth, double fHeight) {
         BufferedImage dbi = null;
         if(sbi != null) {
             dbi = new BufferedImage(dWidth, dHeight, imageType);
@@ -250,5 +230,10 @@ public class CollageDrawer {
             g.drawRenderedImage(sbi, at);
         }
         return dbi;
+    }*/
+
+    private BufferedImage scale(double factor) throws IOException {
+        BufferedImage scaled = Thumbnails.of(image).scale(factor).asBufferedImage();
+        return scaled;
     }
 }

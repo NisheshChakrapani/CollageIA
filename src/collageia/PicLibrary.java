@@ -26,7 +26,7 @@ public class PicLibrary {
         directory = new File(this.folderDirectory);
         System.out.println("Number of images found: " + this.numImages());
         if (this.numNotImage()!=0) {
-            System.out.println("Number of non-image files found: " + this.numNotImage());
+            System.out.println("Number of non-image files found: " + this.numNotImage()+"\n");
         }
         this.setLibrary();
     }
@@ -57,10 +57,12 @@ public class PicLibrary {
     }
     
     private void setLibrary() throws IOException {
+        System.out.println("Loading library...\n");
         for (int i = 0; i < fileNames.length; i++) {
             Picture pic = new Picture(folderDirectory, fileNames[i]);
             pictures.add(pic);
         }
+        System.out.println("Complete.\n");
     }
     
     /**
