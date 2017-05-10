@@ -41,12 +41,12 @@ public class CollageDrawer {
         TILE_WIDTH = tileWidth;
         TILE_HEIGHT = tileHeight;
         this.saveToFile = saveToFile;
-        if (image.getWidth() < 4000 && image.getHeight() < 4000) {
+        if (image.getWidth() < 2500 && image.getHeight() < 2500) {
             System.out.println("Scaling image up for better quality...");
             if (image.getWidth() > image.getHeight()) {
-                image = scale(4000/image.getWidth());
+                image = scale(2500/image.getWidth());
             } else {
-                image = scale(4000/image.getHeight());
+                image = scale(2500/image.getHeight());
             }
         }
         panel = new DrawingPanel(image.getWidth(), image.getHeight());
